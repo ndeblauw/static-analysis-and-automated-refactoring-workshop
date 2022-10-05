@@ -11,3 +11,4 @@ use function PHPStan\Testing\assertType;
 
 assertType(Workshop::class, $commandBus->handle(new PlanWorkshop('Title')));
 assertType('void', $commandBus->handle(new CancelWorkshop()));
+

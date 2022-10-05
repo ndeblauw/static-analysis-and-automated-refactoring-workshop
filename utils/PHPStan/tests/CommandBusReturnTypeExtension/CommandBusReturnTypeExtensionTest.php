@@ -6,6 +6,9 @@ namespace Utils\PHPStan\Tests\CommandBusReturnTypeExtension;
 
 use PHPStan\Testing\TypeInferenceTestCase;
 
+/**
+ * @group wip
+ */
 final class CommandBusReturnTypeExtensionTest extends TypeInferenceTestCase
 {
     /**
@@ -22,7 +25,7 @@ final class CommandBusReturnTypeExtensionTest extends TypeInferenceTestCase
      */
     public function testFileAsserts(string $assertType, string $file, mixed ...$args): void
     {
-        $this->markTestIncomplete('Enable this test when working on Module10');
+        //$this->markTestIncomplete('Enable this test when working on Module10');
 
         $this->assertFileAsserts($assertType, $file, ...$args);
     }

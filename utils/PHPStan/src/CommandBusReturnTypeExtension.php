@@ -9,12 +9,15 @@ use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
+use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\Type;
+use PHPStan\Type\ObjectType;
+
 
 final class CommandBusReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
-    public function __construct()
+    public function __construct(private ReflectionProvider $reflectionProvider)
     {
     }
 
@@ -36,12 +39,21 @@ final class CommandBusReturnTypeExtension implements DynamicMethodReturnTypeExte
         Scope $scope
     ): ?Type {
         // TODO: return the return type of [CommandClass]Handler::handle() instead
+        $command = $methodCall->getArgs()[0];
+        $type = $scope->getType($command->value);
+        assert($type instanceof ObjectType);
+
+        $handlerClassName = $type->getClassName().'Handler';
+
+        $handlerHandleMethod = $this->reflectionProvider
+            ->getClass($handlerClassName)
+            ->getMethod('handle', $scope);
 
         // By default, return the return type of CommandBus::handle() (or just null)
         return ParametersAcceptorSelector::selectFromArgs(
             $scope,
             $methodCall->getArgs(),
-            $methodReflection->getVariants()
+            $handlerHandleMethod->getVariants()
         )->getReturnType();
     }
 }
