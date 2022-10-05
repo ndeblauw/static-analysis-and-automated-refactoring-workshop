@@ -39,11 +39,21 @@ final class CommandBusReturnTypeExtension implements DynamicMethodReturnTypeExte
         Scope $scope
     ): ?Type {
         // TODO: return the return type of [CommandClass]Handler::handle() instead
+        if($methodCall->getArgs() === []) {
+            return null;
+        }
+
         $command = $methodCall->getArgs()[0];
         $type = $scope->getType($command->value);
-        assert($type instanceof ObjectType);
+        if(! $type instanceof ObjectType) {
+            return null;
+        }
 
         $handlerClassName = $type->getClassName().'Handler';
+
+        if (!$this->reflectionProvider->hasClass($handlerClassName)) {
+            return null;
+        }
 
         $handlerHandleMethod = $this->reflectionProvider
             ->getClass($handlerClassName)
