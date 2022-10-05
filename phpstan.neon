@@ -2,10 +2,13 @@
 includes:
     - phpstan-baseline.neon
 
+rules:
+    - Utils\PHPStan\DynamicInstantiationRule
 
 parameters:
     level: max
     paths:
+        - utils
         - src/Module0
         - src/Module1
         - src/Module2
@@ -17,6 +20,8 @@ parameters:
         - src/Module8
         - src/Module9
 #        - src/Module10
+    excludePaths:
+        - utils/PHPStan/tests/*/Fixtures/*
 
     stubFiles:
         - utils/PHPStan/src/stubs/laravel/framework/Helpers.php
