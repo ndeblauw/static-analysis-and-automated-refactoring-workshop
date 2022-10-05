@@ -17,9 +17,3 @@ parameters:
 #        - src/Module8
 #        - src/Module9
 #        - src/Module10
-
-    ignoreErrors:
-        -
-            message: '#^Parameter \#1 \$happenedAt of class App\\Module6\\Event constructor expects DateTimeImmutable, DateTimeImmutable\|false given\.$#'
-            path: src\Module6\okay.php
-            count: 1
