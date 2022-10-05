@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Module2;
 
+use Assert\Assertion;
+
 final class User
 {
     private string $username;
@@ -26,15 +28,13 @@ final class User
     }
 
     /**
-     * @param array<string,string|int|null> $record
+     * @param array<string,string|null> $record
      */
     public static function fromDatabaseRecord(array $record): self
     {
-        assert(array_key_exists('username', $record));
-        assert(is_string($record['username']));
-        assert(array_key_exists('age', $record));
-        assert(is_string($record['int']));
-
-        return new self($record['username'], (int) $record['age']);
+        return new self(
+            Mapping::getString($record, 'username'),
+            Mapping::getInteger($record, 'age'),
+        );
     }
 }
