@@ -6,20 +6,18 @@ namespace App\Module1;
 
 class Client
 {
-    private int $clientId;
+    private string $apiKey;
 
-    /**
-     * @var string
-     */
-    private $apiKey;
-
-    public function __construct(string $clientId, ?string $apiKey)
+    public function __construct(?string $apiKey)
     {
-        $this->clientId = $clientId;
+        if($apiKey === null) {
+            throw new \InvalidArgumentException('...');
+        };
+
         $this->apiKey = $apiKey;
     }
 
-    public function apiKey(): string
+    public function clientSecret(): string
     {
         return $this->apiKey;
     }
